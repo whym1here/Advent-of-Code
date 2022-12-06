@@ -1,0 +1,6 @@
+*.*
+!*.cpp
+!*.py
+!*.md
+!.gitignore
+2015
