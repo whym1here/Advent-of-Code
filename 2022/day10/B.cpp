@@ -24,7 +24,7 @@ int main() {
     vector<char> F;
         
     auto check = [](int X, int C) -> bool {
-        return X == (C % 40) or X == (C - 1) % 40 or X == (C + 1) % 40;
+        return X == (C % 40) or X == (C - 1 + 40) % 40 or X == (C + 1) % 40;
     };
 
     for(int _ = 0; _ < N; _++) {
@@ -51,5 +51,6 @@ int main() {
         if(i % 40 == 0) cout << '\n';
         cout << F[i];
     }
+
     return 0;
 }
