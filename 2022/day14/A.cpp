@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int mxn = 550, mxm = 200;
-
 vector<string> readlines() {
     string s;
     vector<string> S;
@@ -55,8 +53,8 @@ int main() {
         }
         a.push_back(b);
     }
-
-    mxn = mxm = max(mxm + 100, mxn + 100);
+    mxn *= 2;
+    mxm += 3;
     vector<vector<int>> sim(mxn, vector<int>(mxm, 0));
     // 0 == empty, 1 = sand
 

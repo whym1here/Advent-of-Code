@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int mxn = 550, mxm = 200;
-
 vector<string> readlines() {
     string s;
     vector<string> S;
