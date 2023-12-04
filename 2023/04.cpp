@@ -66,35 +66,118 @@ int64_t silver(vector<string> lines) {
       string s = rltrim(e);
       if (!s.empty() and '0' <= s[0] and s[0] <= '9') {
         win[s]++;
-        // cout << s << ":";
       }
     }
-    // cout << '\n';
 
     for (auto &e : split(have_c)) {
       string s = rltrim(e);
       if (!s.empty() and '0' <= s[0] and s[0] <= '9') {
         have[s]++;
-        // cout << s << ":";
       }
     }
-    // cout << '\n';
 
     int64_t cnt = 0;
     for (auto &[k, v] : have) {
       cnt += min(v, win[k]);
     }
-    // cout << "cnt = " << (1 << cnt) << '\n';
     if (cnt >= 1)
       ans += (1LL << (cnt - 1));
   }
   return ans;
 }
 
+template <typename T> class BIT {
+public:
+  vector<T> bit;
+  int n;
+
+  BIT() { n = 0; }
+
+  BIT(int _n) {
+    n = _n;
+    bit.assign(n, 0);
+  }
+
+  // increase the value of element at idx idxex i.e a[idx]
+  void inc(int idx, T val) {
+    assert(0 <= idx and idx < n);
+    for (int i = idx + 1; i <= n; i += (i & -i))
+      bit[i - 1] += val;
+  }
+
+  // sum of all the elements in [0..idx]
+  T query(int idx) {
+    assert(0 <= idx and idx < n);
+    T res = 0;
+    for (int i = idx + 1; i > 0; i -= (i & -i))
+      res += bit[i - 1];
+    return res;
+  }
+
+  // get the value of element at idx index i.e a[idx]
+  T at(int idx) {
+    assert(0 <= idx and idx < n);
+    return query(idx) - (idx - 1 >= 0 ? query(idx - 1) : 0);
+  }
+
+  // sum of all the element [l..r]
+  T at(int l, int r) {
+    assert(0 <= l and l <= r and r < n);
+    return query(r) - (l - 1 >= 0 ? query(l - 1) : 0);
+  }
+};
+
+template <typename T> class FT {
+public:
+  BIT<T> f1, f2;
+  int n;
+
+  FT() { n = 0; }
+
+  FT(int _n) {
+    n = _n;
+    f1 = f2 = BIT<T>(_n + 1);
+  }
+
+  // increase the value of element at idx idxex i.e a[idx]
+  void inc(int idx, T val) {
+    assert(0 <= idx and idx < n);
+    inc(idx, idx, val);
+  }
+
+  // increase all the elements in [l..r] by val
+  void inc(int l, int r, T val) {
+    assert(0 <= l and l <= r and r < n);
+    f1.inc(l, val);
+    f1.inc(r + 1, -val);
+    f2.inc(l, val * (l - 1));
+    f2.inc(r + 1, -val * r);
+  }
+
+  // sum of all the elements in [0..idx]
+  T query(int idx) {
+    assert(0 <= idx and idx < n);
+    return f1.query(idx) * idx - f2.query(idx);
+  }
+
+  // get the value of element at idx index i.e a[idx]
+  T at(int idx) {
+    assert(0 <= idx and idx < n);
+    return query(idx) - (idx - 1 >= 0 ? query(idx - 1) : 0);
+  }
+
+  // sum of all the element [l..r]
+  T at(int l, int r) {
+    assert(0 <= l and l <= r and r < n);
+    return query(r) - (l - 1 >= 0 ? query(l - 1) : 0);
+  }
+};
+
 int gold(vector<string> lines) {
   int64_t ans = 0;
   const int n = (int)lines.size();
-  vector<int64_t> cards(n), times(n, 1);
+  FT<int64_t> fw(n);
+  fw.inc(0, n - 1, 1);
   for (int j = 0; j < n; j++) {
     auto &line = lines[j];
     auto div_p = split(line, ':');
@@ -106,42 +189,37 @@ int gold(vector<string> lines) {
       string s = rltrim(e);
       if (!s.empty() and '0' <= s[0] and s[0] <= '9') {
         win[s]++;
-        // cout << s << ":";
       }
     }
-    // cout << '\n';
 
     for (auto &e : split(have_c)) {
       string s = rltrim(e);
       if (!s.empty() and '0' <= s[0] and s[0] <= '9') {
         have[s]++;
-        // cout << s << ":";
       }
     }
-    // cout << '\n';
 
     int64_t cnt = 0;
     for (auto &[k, v] : have) {
       cnt += min(v, win[k]);
     }
 
-    int t = cnt, ptr = j + 1;
-    if (ptr != n) {
-      while (t--) {
-        if (ptr == n)
-          ptr = j + 1;
-        times[ptr] += times[j];
-        ptr++;
+    if (j != n - 1) {
+      int len = n - j - 1;
+      int times = cnt / len;
+      int rem = cnt % len;
+      fw.inc(j + 1, n - 1, times * fw.at(j));
+      if (rem >= 1) {
+        fw.inc(j + 1, j + rem, fw.at(j));
       }
     }
-    // cout << "cnt = " << (1 << cnt) << '\n';
   }
-  return accumulate(times.begin(), times.end(), (int64_t)0);
+  return fw.at(0, n - 1);
 }
 
 int main() {
   vector<string> lines = read_lines();
-  // cout << silver(lines) << '\n';
+  cout << silver(lines) << '\n';
   cout << gold(lines) << '\n';
 
   return 0;
