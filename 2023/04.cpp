@@ -173,7 +173,7 @@ public:
   }
 };
 
-int gold(vector<string> lines) {
+int64_t gold(vector<string> lines) {
   int64_t ans = 0;
   const int n = (int)lines.size();
   FT<int64_t> fw(n);
