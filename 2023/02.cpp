@@ -39,7 +39,7 @@ string rltrim(string s, char c = ' ') {
       break;
     }
   }
-  for (int i = (int)s.size() - 1; i >= 0; i++) {
+  for (int i = (int)s.size() - 1; i >= 0; i--) {
     if (s[i] != c) {
       hi = i;
       break;

@@ -6,7 +6,7 @@ vector<string> read_lines() {
   string str;
   while (true) {
     getline(cin, str);
-    if (str.size() == 0)
+    if (str.empty())
       break;
     res.push_back(str);
   }
@@ -18,14 +18,14 @@ vector<string> split(string s, char c = ' ') {
   string cur = "";
   for (char ch : s) {
     if (ch == c) {
-      if (cur.size() > 0)
+      if (!cur.empty())
         res.push_back(cur);
       cur = "";
     } else {
       cur += ch;
     }
   }
-  if (cur.size() > 0) {
+  if (!cur.empty()) {
     res.push_back(cur);
   }
   return res;
@@ -39,7 +39,7 @@ string rltrim(string s, char c = ' ') {
       break;
     }
   }
-  for (int i = (int)s.size() - 1; i >= 0; i++) {
+  for (int i = (int)s.size() - 1; i >= 0; i--) {
     if (s[i] != c) {
       hi = i;
       break;
