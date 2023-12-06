@@ -2,5 +2,6 @@
 !*.cpp
 !*.py
 !*.md
+!*.rs
 !.gitignore
 2015
