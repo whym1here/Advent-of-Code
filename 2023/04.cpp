@@ -221,6 +221,5 @@ int main() {
   vector<string> lines = read_lines();
   cout << silver(lines) << '\n';
   cout << gold(lines) << '\n';
-
   return 0;
 }

@@ -1,6 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<string> read_lines(string file_name = "input.txt") {
+  vector<string> res;
+  string line;
+  ifstream file(file_name);
+  if (file.is_open()) {
+    while (getline(file, line)) {
+      res.push_back(line);
+    }
+    file.close();
+  }
+  return res;
+}
+
 vector<string> nums = {"zero", "one", "two",   "three", "four",
                        "five", "six", "seven", "eight", "nine"};
 
@@ -77,12 +90,8 @@ int gold(vector<string> &a) {
 }
 
 int main() {
-  int n;
-  cin >> n;
-  vector<string> a(n);
-  for (int i = 0; i < n; i++)
-    cin >> a[i];
-  cout << silver(a) << '\n';
-  cout << gold(a) << '\n';
+  vector<string> lines = read_lines();
+  cout << silver(lines) << '\n';
+  cout << gold(lines) << '\n';
   return 0;
 }

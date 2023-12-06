@@ -79,7 +79,6 @@ int64_t silver(vector<string> lines) {
     bool pos = false;
     for (int j = 0; j < m; j++) {
       char c = a[i][j];
-      // cout << c << (j != m - 1 ? ", " : "\n");
       if ('0' <= c and c <= '9') {
         s += c;
         if (!pos) {
@@ -92,7 +91,6 @@ int64_t silver(vector<string> lines) {
           }
         }
       } else if (!s.empty()) {
-        // cout << s << " :: " << pos << '\n';
         if (pos)
           ans += stoll(s);
         s.clear();
@@ -100,7 +98,6 @@ int64_t silver(vector<string> lines) {
       }
     }
     if (!s.empty()) {
-      // cout << s << " :: " << pos << '\n';
       if (pos)
         ans += stoll(s);
       s.clear();
@@ -135,7 +132,6 @@ int gold(vector<string> lines) {
     set<pair<int, int>> p;
     for (int j = 0; j < m; j++) {
       char c = a[i][j];
-      // cout << c << (j != m - 1 ? ", " : "\n");
       if ('0' <= c and c <= '9') {
         s += c;
         for (auto &[dx, dy] : dxy) {
@@ -145,7 +141,6 @@ int gold(vector<string> lines) {
           }
         }
       } else if (!s.empty()) {
-        // cout << s << " :: " << pos << '\n';
         for (auto &e : p)
           cnt[e].push_back(stoll(s));
         s.clear();
@@ -153,7 +148,6 @@ int gold(vector<string> lines) {
       }
     }
     if (!s.empty()) {
-      // cout << s << " :: " << pos << '\n';
       for (auto &e : p)
         cnt[e].push_back(stoll(s));
       s.clear();
@@ -162,11 +156,6 @@ int gold(vector<string> lines) {
   }
 
   for (auto &[k, v] : cnt) {
-    // cout << k.first << ", " << k.second << ", v : ";
-    // for (auto &e : v) {
-    //   cout << e << ' ';
-    // }
-    // cout << '\n';
     if (v.size() == 2) {
       ans += v[0] * 1LL * v[1];
     }
@@ -179,6 +168,5 @@ int main() {
   vector<string> lines = read_lines();
   cout << silver(lines) << '\n';
   cout << gold(lines) << '\n';
-
   return 0;
 }

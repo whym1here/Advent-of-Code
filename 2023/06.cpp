@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <vector>
 using namespace std;
 
 vector<string> read_lines(string file_name = "input.txt") {
@@ -69,13 +68,6 @@ int64_t silver(vector<string> lines) {
   for (auto &e : line_1)
     dist.push_back(stoll(rltrim(e)));
 
-  // for (auto &e : times)
-  //   cout << e << ' ';
-  // cout << '\n';
-  // for (auto &e : dist)
-  //   cout << e << ' ';
-  // cout << '\n';
-
   assert(times.size() == dist.size());
   const int n = (int)times.size();
   vector<int64_t> res(n, 0);
@@ -125,6 +117,5 @@ int main() {
   vector<string> lines = read_lines();
   cout << silver(lines) << '\n';
   cout << gold(lines) << '\n';
-
   return 0;
 }
